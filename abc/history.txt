@@ -1,0 +1,20 @@
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+NULL
+cd abc
+ls
+ls -a
+ls ~
+ls ~ -a
+ls abs
