@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <time.h>
 
 
 #define BUFFER_SIZE 100
@@ -41,6 +42,7 @@ void echo(char **command);
 
 void ls(char **command);
 char *check_perms(char *name);
+void stats(char *name);
 
 // pinfo.c
 void pinfo(char *command);
@@ -50,5 +52,9 @@ void pinfo(char *command);
 void load_history();
 void update_history(char *command);
 void history(char **command);
+
+//discover
+void discover(char **command, char *sp, char *str);
+void explore(char *path, char *space, char *address);
 
 #endif

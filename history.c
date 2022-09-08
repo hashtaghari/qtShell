@@ -32,7 +32,8 @@ void load_history()
 void update_history(char *command)
 {
     // CHECK FOR LAST COMMAND
-    command[strlen(command) ] = '\0';
+    command[strlen(command) - 1] = '\0';
+    printf("%s %s a\n",old_commands[19],command);
     if (strcmp(old_commands[19], command) == 0)
         return;
 

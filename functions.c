@@ -62,6 +62,10 @@ int execute_command(char *command)
     {
         history(commands_broken);
     }
+    else if (strcmp(commands_broken[0], "discover") == 0)
+    {
+        discover(commands_broken,"","./");
+    }
     else
     {
         return -1;

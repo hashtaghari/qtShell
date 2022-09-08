@@ -74,14 +74,18 @@ void ls(char **command)
                 permissions=check_perms(namelist[i]->d_name);
                 if(flaga==0 && namelist[i]->d_name[0]!='.'){
                     if(strcmp(namelist[i]->d_name,"..")!=0 && strcmp(namelist[i]->d_name,".")!=0){
-                        printf("%s\t", permissions);
-                        printf("%s\t", namelist[i]->d_name);
+                        printf("%s ", permissions);
+                        stats(namelist[i]->d_name);
+                        printf("%s ", namelist[i]->d_name);
                         printf("\n");
                     }
                 }
                 else if(flaga==1){
                     if(strcmp(namelist[i]->d_name,"..")!=0 && strcmp(namelist[i]->d_name,".")!=0){
-                    printf("%s\t", namelist[i]->d_name);
+                    printf("%s ", permissions);
+                    stats(namelist[i]->d_name);
+                    printf("%s ", namelist[i]->d_name);
+                    
                     printf("\n");
                     }
                 }
@@ -193,3 +197,25 @@ char *check_perms(char *name) //function to obtain permissions of a file/directo
     return str;
 }
 
+void stats(char *name){
+    struct stat fs;
+    int r;
+    //printf("HEERE");
+
+    char *username = (char *)malloc(30 * sizeof(char));
+    char *hostname = (char *)malloc(30 * sizeof(char));
+    getlogin_r(username, 30);
+    gethostname(hostname, 30);
+    r = stat(name, &fs);
+    if (r == -1)
+    {
+        perror("stat");
+        exit(1);
+    }
+    printf("%lu %s %s %lu ", fs.st_nlink,username,hostname,fs.st_size);
+    char date[10];
+    strftime(date, 10, "%d-%m-%y", gmtime(&(fs.st_mtime)));
+    printf("%s ", date);
+    date[0]=0;
+    
+}

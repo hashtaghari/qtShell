@@ -13,8 +13,8 @@ NULL
 NULL
 NULL
 NULL
-ls -l
-ls -a
-rm -rf .git
-rm .git
-unlink .git
+NULL
+NULL
+NULL
+NULL
+echo h
