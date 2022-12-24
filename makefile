@@ -1,2 +1,2 @@
-main:
-	gcc -g main.c prompt.c functions.c cd.c pwd.c echo.c ls.c history.c discover.c -o shell
+all:
+	gcc -g -o qtShell fg.c replay.c bg.c main.c  cd.c echo.c execute.c helper.c history.c input.c ls.c pinfo.c prompt.c pwd.c signals.c system_command.c tokenize.c redirection.c pipe.c jobs.c

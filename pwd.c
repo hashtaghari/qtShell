@@ -1,8 +1,18 @@
-#include "headers.h"
+#include "header.h"
+#include "pwd.h"
 
-// get current working directory and return it
-void pwd()
+void execute_pwd()
 {
-    char *current_path = getcwd(NULL, 0);
-    printf("%s\n", current_path);
+    char *cwd = (char *)malloc(sizeof(char) * name_len);
+    getcwd(cwd, name_len);
+    if (cwd != NULL)
+    {
+        printf("%s\n", cwd);
+        free(cwd);
+    }
+    else
+    {
+        perror(ERROR " ERROR GETTING CWD ");
+        fprintf(stderr, RESET);
+    }
 }

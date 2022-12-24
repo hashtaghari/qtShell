@@ -1,48 +1,43 @@
-#include "headers.h"
-
-char *root_directory, *prev_directory, *cur_dir;
-char old_commands[20][BUFFER_SIZE];
-int old_commands_ptr=0;
+#include "header.h"
+#include "prompt.h"
+#include "input.h"
+#include "execute.h"
+#include "tokenize.h"
+#include "history.h"
+#include "system_command.h"
+#include "cd.h"
+#include "signals.h"
 
 int main()
 {
-    load_history();
-    
-    root_directory = (char *)malloc(100 * sizeof(char));
-    prev_directory = (char *)malloc(100 * sizeof(char));
-    cur_dir = (char *)malloc(100 * sizeof(char));
-    root_directory = getcwd(NULL, 0);
-    cur_dir = getcwd(NULL, 0);
-    prev_directory = getcwd(NULL, 0);
-    for(int i=0;i<20;i++){
-        strcpy(old_commands[i],"NULL");
-    }
-
+    is_fg = -1;
+    init_shell();
+    //signal();
+    init_history();
+    signal(SIGCHLD, SIGCHILD_HANDLER);
+    signal(SIGINT, SIGINT_HANDLER);
+    signal(SIGTSTP, SIGTSTP_HANDLER);
+    char *in;
+    char **list;
+    prompt();
+    copy_stdin_fileno = dup(STDIN_FILENO);
+    copy_stdout_fileno = dup(STDOUT_FILENO);
     while (1)
     {
-        prompt();
-        char input[BUFFER_SIZE];
-        fgets(input, BUFFER_SIZE, stdin);
-        // check if input is null
-        if (strcmp(input, "") == 0)
-            continue;
-        update_history(input);
-        char **commands_sep;
-        commands_sep = commands_extract(input, ";&\n");
 
-        // print commands_se
-
-        int i = 0;
-        while (strcmp(commands_sep[i], "NULL") != 0)
+        in = getInput();
+        char command[name_len];
+        strcpy(command, in);
+        add_to_history(command);
+        list = getList(command);
+        list[num_command] = NULL;
+        for (int i = 0; list != NULL && list[i] != NULL && i < num_command; i++)
         {
-
-            int valid = execute_command(commands_sep[i]);
-            if (valid == -1)
-                printf("Invalid Command: %s\n", commands_sep[i]);
-           
-            i++;
+            execute(list[i]);
         }
-        
+        free(in);
+        free(list);
+        prompt();
     }
-    return 0;
+    execute("exit");
 }

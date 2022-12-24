@@ -1,12 +1,15 @@
-#include "headers.h"
+#include "header.h"
+#include "echo.h"
 
-void echo(char **command)
+void execute_echo(int arg_count, char **argument)
 {
     int i = 1;
-    while (strcmp(command[i], "NULL") != 0)
+    while (argument[i] != NULL)
     {
-        printf("%s ", command[i]);
+        printf("%s", argument[i]);
         i++;
+        if (argument[i] != NULL)
+            printf(" ");
     }
     printf("\n");
 }
